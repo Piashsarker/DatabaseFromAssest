@@ -65,11 +65,30 @@ public class DatabaseAccess {
         Cursor cursor = database.rawQuery("SELECT * FROM student", null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            list.add(cursor.getString(1));
+            list.add(cursor.getString(cursor.getColumnIndex("name")));
             cursor.moveToNext();
         }
         cursor.close();
         return list;
     }
+
+    public ArrayList<Student> getStudentInfo(){
+        ArrayList<Student> students = new ArrayList<>();
+
+        Cursor cursor = database.rawQuery("Select * from student",null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Student student = new Student() ;
+            student.setName(cursor.getString(cursor.getColumnIndex("name")));
+            student.setAddress(cursor.getString(cursor.getColumnIndex("address")));
+            student.setStudentId(cursor.getString(cursor.getColumnIndex("student_id")));
+            student.setAge(cursor.getString(cursor.getColumnIndex("age")));
+            students.add(student);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return students;
+    }
+
 
 }
